@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { generateSetlist, SetlistResult } from "@/utils/generator";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MEMBERS } from "@/data/master";
 
-export default function ClientPage() {
+function ClientPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -113,5 +113,17 @@ export default function ClientPage() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function ClientPage() {
+    return (
+        <Suspense fallback={
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-white text-xl">読み込み中...</div>
+            </div>
+        }>
+            <ClientPageContent />
+        </Suspense>
     );
 }

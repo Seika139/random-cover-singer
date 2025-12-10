@@ -18,12 +18,11 @@ export async function generateMetadata(
 
   const description = "次のライブのセトリと歌唱メンバーを勝手に予想します！";
 
-  // Constuct absolute URL for OG image
-  const ogUrl = new URL("/api/og", "http://localhost:3000"); // Fallback base
-  if (process.env.VERCEL_URL) {
-    ogUrl.hostname = process.env.VERCEL_URL;
-    ogUrl.protocol = "https";
-  }
+  // Construct absolute URL for OG image
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const ogUrl = new URL("/api/og", baseUrl);
 
   if (song) ogUrl.searchParams.set("s", song);
   if (members) ogUrl.searchParams.set("m", members);
