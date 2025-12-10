@@ -64,7 +64,7 @@ export async function GET(request: Request) {
                             fontSize: 30,
                             opacity: 0.9,
                             textShadow: '0 2px 4px rgba(0,0,0,0.8)',
-                        }}>次のライブのセトリを予想しよう！</div>
+                        }}>MOIW2025のセトリを予想しよう！</div>
                     </div>
                 ),
                 {
