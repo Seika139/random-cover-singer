@@ -63,7 +63,7 @@ export default function ClientPage() {
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 shadow-2xl w-full max-w-md border border-white/20">
                 {result ? (
                     <div className="mb-8 animate-in fade-in zoom-in duration-300">
-                        <p className="text-sm text-gray-300 uppercase tracking-wider mb-2">今回の曲は...</p>
+                        <p className="text-sm text-gray-300 uppercase tracking-wider mb-2">歌唱する曲は...</p>
                         <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mb-4">
                             {result.song}
                         </h2>
@@ -71,11 +71,11 @@ export default function ClientPage() {
                         <div className="my-6 h-px bg-white/20" />
 
                         <p className="text-sm text-gray-300 uppercase tracking-wider mb-2">歌唱メンバー</p>
-                        <div className="flex flex-wrap justify-center gap-2">
+                        <div className="flex flex-col items-center gap-3 w-full">
                             {result.members.map((member, i) => (
                                 <span
                                     key={i}
-                                    className="px-3 py-1 rounded-full font-medium shadow-sm"
+                                    className="px-6 py-2 rounded-full font-bold text-lg shadow-md w-full max-w-[240px]"
                                     style={{
                                         backgroundColor: member.color,
                                         color: getTextColor(member.color)
@@ -96,7 +96,7 @@ export default function ClientPage() {
                     onClick={handlePredict}
                     className="w-full py-4 text-xl font-bold text-white transition-all transform hover:scale-105 active:scale-95 rounded-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:shadow-lg shadow-pink-500/50"
                 >
-                    セトリを予想！
+                    セトリ予想を生成！
                 </button>
 
                 {result && (

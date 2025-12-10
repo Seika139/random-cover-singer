@@ -83,7 +83,7 @@ export async function GET(request: Request) {
                             marginBottom: 30,
                         }}
                     >
-                        今回の曲は...
+                        歌唱する曲は...
                     </div>
                     <div
                         style={{
@@ -100,7 +100,7 @@ export async function GET(request: Request) {
                         {song.length > 20 ? song.substring(0, 20) + '...' : song}
                     </div>
 
-                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 20 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, width: '100%' }}>
                         {members.map((member, i) => {
                             const masterMember = MEMBERS.find(m => m.name === member);
                             const bgColor = masterMember ? masterMember.color : 'rgba(255,255,255,0.2)';
@@ -110,13 +110,17 @@ export async function GET(request: Request) {
                                 <div
                                     key={i}
                                     style={{
-                                        padding: '10px 30px',
+                                        padding: '10px 40px',
                                         backgroundColor: bgColor,
                                         color: textColor,
                                         borderRadius: 50,
-                                        fontSize: 30,
-                                        fontWeight: 600,
-                                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                                        fontSize: 36,
+                                        fontWeight: 700,
+                                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                                        textAlign: 'center',
+                                        minWidth: 300,
+                                        display: 'flex',
+                                        justifyContent: 'center',
                                     }}
                                 >
                                     {member}

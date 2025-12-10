@@ -9,8 +9,8 @@ export interface SetlistResult {
 export function generateSetlist(): SetlistResult {
     const song = SONGS[Math.floor(Math.random() * SONGS.length)];
 
-    // Pick 1 to 3 random members
-    const memberCount = Math.floor(Math.random() * 3) + 1;
+    // Pick 1 to 5 random members
+    const memberCount = Math.floor(Math.random() * 5) + 1;
     const shuffledMembers = [...MEMBERS].sort(() => 0.5 - Math.random());
     const selectedMembers = shuffledMembers.slice(0, memberCount);
 
