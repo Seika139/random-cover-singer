@@ -13,15 +13,12 @@ export async function generateMetadata(
   const members = params.m as string;
 
   const title = song && members
-    ? `Setlist: ${song} by ${members.split(',').length} members`
-    : "Setlist Predictor";
+    ? `セトリ予想: ${song} / ${members.split(',').length}人`
+    : "セトリ予想メーカー";
 
-  const description = "Predict the next live setlist and performers!";
+  const description = "次のライブのセトリと歌唱メンバーを勝手に予想します！";
 
   // Constuct absolute URL for OG image
-  // In production, use process.env.NEXT_PUBLIC_URL or similar. 
-  // For local/preview, relative URL might work if supported or use vercel url.
-  // We'll assume relative for now or standard next metadata resolution.
   const ogUrl = new URL("/api/og", "http://localhost:3000"); // Fallback base
   if (process.env.VERCEL_URL) {
     ogUrl.hostname = process.env.VERCEL_URL;
