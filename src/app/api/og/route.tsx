@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { MEMBERS } from '@/data/master';
+import { ALL_MEMBERS } from '@/data/master';
 import fs from 'fs';
 import path from 'path';
 
@@ -122,7 +122,7 @@ export async function GET(request: Request) {
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, width: '100%' }}>
                         {members.map((member, i) => {
-                            const masterMember = MEMBERS.find(m => m.name === member);
+                            const masterMember = ALL_MEMBERS.find(m => m.name === member);
                             const bgColor = masterMember ? masterMember.color : 'rgba(255,255,255,0.2)';
                             const textColor = masterMember ? getTextColor(masterMember.color) : 'white';
 

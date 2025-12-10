@@ -16,15 +16,23 @@ export interface Member {
     color: string;
 }
 
-export const MEMBERS: Member[] = [
-    { name: "アリス", color: "#f87171" }, // Red
-    { name: "ボブ", color: "#60a5fa" },   // Blue
-    { name: "チャーリー", color: "#facc15" }, // Yellow
-    { name: "デイビッド", color: "#4ade80" }, // Green
-    { name: "イブ", color: "#c084fc" },   // Purple
-    { name: "フランク", color: "#fb923c" }, // Orange
-    { name: "グレース", color: "#f472b6" }, // Pink
-    { name: "ハイジ", color: "#2dd4bf" }, // Teal
-    { name: "アイバン", color: "#9ca3af" }, // Gray
-    { name: "ジュディ", color: "#a3e635" }, // Lime
+// グループA: アイドルマスター
+export const MEMBERS_GROUP_A: Member[] = [
+    { name: "如月 千早", color: "#2743d2ff" },
+    { name: "星井 美希", color: "#b4e04bff" },
+    { name: "四条 貴音", color: "#a6126aff" },
+    { name: "三浦 あずさ", color: "#9238beff" },
 ];
+
+// グループB: その他
+export const MEMBERS_GROUP_B: Member[] = [
+    { name: "イブ", color: "#c084fc" },
+    { name: "フランク", color: "#fb923c" },
+    { name: "グレース", color: "#f472b6" },
+    { name: "ハイジ", color: "#2dd4bf" },
+    { name: "アイバン", color: "#9ca3af" },
+    { name: "ジュディ", color: "#a3e635" },
+];
+
+// すべてのメンバー（OGP生成時の検索用）
+export const ALL_MEMBERS: Member[] = [...MEMBERS_GROUP_A, ...MEMBERS_GROUP_B];

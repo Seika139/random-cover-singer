@@ -1,4 +1,4 @@
-import { SONGS, MEMBERS, Member } from "../data/master";
+import { SONGS, MEMBERS_GROUP_A, MEMBERS_GROUP_B, Member } from "../data/master";
 
 export interface SetlistResult {
     song: string;
@@ -9,9 +9,12 @@ export interface SetlistResult {
 export function generateSetlist(): SetlistResult {
     const song = SONGS[Math.floor(Math.random() * SONGS.length)];
 
-    // Pick 1 to 5 random members
+    // ランダムにグループAまたはグループBを選択
+    const selectedGroup = Math.random() < 0.5 ? MEMBERS_GROUP_A : MEMBERS_GROUP_B;
+
+    // Pick 1 to 5 random members from the selected group
     const memberCount = Math.floor(Math.random() * 5) + 1;
-    const shuffledMembers = [...MEMBERS].sort(() => 0.5 - Math.random());
+    const shuffledMembers = [...selectedGroup].sort(() => 0.5 - Math.random());
     const selectedMembers = shuffledMembers.slice(0, memberCount);
 
     return {

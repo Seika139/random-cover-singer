@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { generateSetlist, SetlistResult } from "@/utils/generator";
 import { useRouter, useSearchParams } from "next/navigation";
-import { MEMBERS } from "@/data/master";
+import { ALL_MEMBERS } from "@/data/master";
 
 function ClientPageContent() {
     const router = useRouter();
@@ -19,7 +19,7 @@ function ClientPageContent() {
             const memberNames = m.split(",");
             // Reconstruct members with colors from master data
             const resultMembers = memberNames.map(name => {
-                const found = MEMBERS.find(mem => mem.name === name);
+                const found = ALL_MEMBERS.find(mem => mem.name === name);
                 return found || { name, color: "#666" }; // Fallback color
             });
 
