@@ -56,21 +56,25 @@ function ClientPageContent() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
-            <h1 className="text-4xl font-bold mb-8 text-white drop-shadow-lg">
-                セトリ予想メーカー
+            <h1 className="text-4xl font-bold mb-8 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
+                MOIW2025 セトリ予想メーカー
             </h1>
 
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 shadow-2xl w-full max-w-md border border-white/20">
                 {result ? (
                     <div className="mb-8 animate-in fade-in zoom-in duration-300">
-                        <p className="text-sm text-gray-300 uppercase tracking-wider mb-2">歌唱する曲は...</p>
-                        <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mb-4">
+                        <p className="text-gray-200 uppercase tracking-wider mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                            歌唱する曲は...
+                        </p>
+                        <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                             {result.song}
                         </h2>
 
                         <div className="my-6 h-px bg-white/20" />
 
-                        <p className="text-sm text-gray-300 uppercase tracking-wider mb-2">歌唱メンバー</p>
+                        <p className="text-gray-200 uppercase tracking-wider mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                            歌唱メンバーは...
+                        </p>
                         <div className="flex flex-col items-center gap-3 w-full">
                             {result.members.map((member, i) => (
                                 <span

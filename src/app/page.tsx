@@ -56,7 +56,7 @@ export default function Home() {
       className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
       style={{ backgroundImage: "url('/bg.png')" }}
     >
-      <div className="min-h-screen w-full bg-black/30"> {/* Overlay for readability */}
+      <div className="min-h-screen w-full bg-black/50"> {/* Overlay for readability */}
         <ClientPage />
       </div>
     </main>
