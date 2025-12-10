@@ -33,11 +33,13 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
+      type: 'website',
       images: [
         {
           url: ogUrl.toString(),
           width: 1200,
           height: 630,
+          alt: title,
         },
       ],
     },
@@ -45,7 +47,10 @@ export async function generateMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: [ogUrl.toString()],
+      images: {
+        url: ogUrl.toString(),
+        alt: title,
+      },
     },
   };
 }
