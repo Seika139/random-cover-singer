@@ -1,6 +1,12 @@
-import { SONGS, MEMBERS } from "../data/master";
+import { SONGS, MEMBERS, Member } from "../data/master";
 
-export function generateSetlist() {
+export interface SetlistResult {
+    song: string;
+    members: Member[];
+    text: string;
+}
+
+export function generateSetlist(): SetlistResult {
     const song = SONGS[Math.floor(Math.random() * SONGS.length)];
 
     // Pick 1 to 3 random members
@@ -11,6 +17,6 @@ export function generateSetlist() {
     return {
         song,
         members: selectedMembers,
-        text: `${song} / ${selectedMembers.join(", ")}`
+        text: `${song} / ${selectedMembers.map(m => m.name).join(", ")}`
     };
 }
