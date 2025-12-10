@@ -53,8 +53,13 @@ export async function generateMetadata(
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-800">
-      <ClientPage />
+    <main
+      className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{ backgroundImage: "url('/bg.png')" }}
+    >
+      <div className="min-h-screen w-full bg-black/30"> {/* Overlay for readability */}
+        <ClientPage />
+      </div>
     </main>
   );
 }

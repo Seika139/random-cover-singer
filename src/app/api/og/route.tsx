@@ -1,7 +1,9 @@
 import { ImageResponse } from 'next/og';
 import { MEMBERS } from '@/data/master';
+import fs from 'fs';
+import path from 'path';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export async function GET(request: Request) {
     try {
@@ -12,11 +14,14 @@ export async function GET(request: Request) {
         const membersParam = searchParams.get('m');
         let members = membersParam ? membersParam.split(',') : [];
 
+        // Read background image
+        const bgPath = path.join(process.cwd(), 'public', 'bg.png');
+        const bgBuffer = fs.readFileSync(bgPath);
+        const bgBase64 = `data:image/png;base64,${bgBuffer.toString('base64')}`;
+
         // Helper to get text color based on background
         const getTextColor = (hexColor: string) => {
-            // Simple heuristic: if color starts with certain letters it might be dark/light? 
-            // Edge runtime has limitations, so let's do a simple hex parsing if valid.
-            // Assuming valid 6-char hex like #afeeee
+            // Simple heuristic
             if (!hexColor || !hexColor.startsWith('#') || hexColor.length !== 7) return 'white';
 
             try {
@@ -42,12 +47,24 @@ export async function GET(request: Request) {
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: '#1a103d', // Dark purple background
+                            backgroundColor: '#1a103d',
+                            backgroundImage: `url(${bgBase64})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
                             color: 'white',
                         }}
                     >
-                        <div style={{ fontSize: 60, fontWeight: 'bold', marginBottom: 20 }}>セトリ予想メーカー</div>
-                        <div style={{ fontSize: 30, opacity: 0.8 }}>次のライブのセトリを予想しよう！</div>
+                        <div style={{
+                            fontSize: 60,
+                            fontWeight: 'bold',
+                            marginBottom: 20,
+                            textShadow: '0 4px 8px rgba(0,0,0,0.8)',
+                        }}>セトリ予想メーカー</div>
+                        <div style={{
+                            fontSize: 30,
+                            opacity: 0.9,
+                            textShadow: '0 2px 4px rgba(0,0,0,0.8)',
+                        }}>次のライブのセトリを予想しよう！</div>
                     </div>
                 ),
                 {
@@ -67,8 +84,10 @@ export async function GET(request: Request) {
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: '#1a103d', // Match the app theme
-                        backgroundImage: 'linear-gradient(to bottom right, #111827, #581c87, #4c1d95)',
+                        backgroundColor: '#1a103d',
+                        backgroundImage: `url(${bgBase64})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
                         color: 'white',
                         padding: '40px 80px',
                         textAlign: 'center',
@@ -81,6 +100,7 @@ export async function GET(request: Request) {
                             letterSpacing: 4,
                             color: '#e2e8f0',
                             marginBottom: 30,
+                            textShadow: '0 2px 4px rgba(0,0,0,0.8)',
                         }}
                     >
                         歌唱する曲は...
@@ -89,12 +109,12 @@ export async function GET(request: Request) {
                         style={{
                             fontSize: 80,
                             fontWeight: 900,
-                            background: 'linear-gradient(to right, #22d3ee, #e879f9)',
-                            backgroundClip: 'text',
-                            color: 'transparent',
+                            // Improve visibility of song title on busy background
+                            // using solid color with shadow, or gradient with stroke equivalent
+                            color: 'white',
                             marginBottom: 50,
                             lineHeight: 1.1,
-                            textShadow: '0 4px 10px rgba(0,0,0,0.5)',
+                            textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 0 10px rgba(255,255,255,0.5)',
                         }}
                     >
                         {song.length > 20 ? song.substring(0, 20) + '...' : song}
@@ -116,7 +136,7 @@ export async function GET(request: Request) {
                                         borderRadius: 50,
                                         fontSize: 36,
                                         fontWeight: 700,
-                                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                                        boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
                                         textAlign: 'center',
                                         minWidth: 300,
                                         display: 'flex',
@@ -136,6 +156,7 @@ export async function GET(request: Request) {
             },
         );
     } catch (e: any) {
+        console.error(e);
         return new Response(`Failed to generate the image`, {
             status: 500,
         });
