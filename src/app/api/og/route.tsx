@@ -1,9 +1,8 @@
 import { ImageResponse } from 'next/og';
 import { ALL_MEMBERS } from '@/data/master';
-import fs from 'fs';
-import path from 'path';
 
-export const runtime = 'nodejs';
+// Edge Runtimeを使用（推奨）
+export const runtime = 'edge';
 
 export async function GET(request: Request) {
     try {
@@ -14,10 +13,20 @@ export async function GET(request: Request) {
         const membersParam = searchParams.get('m');
         let members = membersParam ? membersParam.split(',') : [];
 
-        // Read background image
-        const bgPath = path.join(process.cwd(), 'public', 'bg.png');
-        const bgBuffer = fs.readFileSync(bgPath);
-        const bgBase64 = `data:image/png;base64,${bgBuffer.toString('base64')}`;
+        // 背景画像をfetchで読み込み（Edge Runtime対応）
+        const bgUrl = new URL('/bg.png', request.url).toString();
+        let bgBase64 = '';
+
+        try {
+            const bgResponse = await fetch(bgUrl);
+            if (bgResponse.ok) {
+                const bgBuffer = await bgResponse.arrayBuffer();
+                const base64 = Buffer.from(bgBuffer).toString('base64');
+                bgBase64 = `data:image/png;base64,${base64}`;
+            }
+        } catch (error) {
+            console.warn('Background image not found, using fallback color');
+        }
 
         // Helper to get text color based on background
         const getTextColor = (hexColor: string) => {
@@ -48,19 +57,21 @@ export async function GET(request: Request) {
                             alignItems: 'center',
                             justifyContent: 'center',
                             backgroundColor: '#1a103d',
-                            backgroundImage: `url(${bgBase64})`,
+                            backgroundImage: bgBase64 ? `url(${bgBase64})` : undefined,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
                             color: 'white',
                         }}
                     >
                         <div style={{
+                            display: 'flex',
                             fontSize: 60,
                             fontWeight: 'bold',
                             marginBottom: 20,
                             textShadow: '0 4px 8px rgba(0,0,0,0.8)',
                         }}>セトリ予想メーカー</div>
                         <div style={{
+                            display: 'flex',
                             fontSize: 30,
                             opacity: 0.9,
                             textShadow: '0 2px 4px rgba(0,0,0,0.8)',
@@ -70,6 +81,9 @@ export async function GET(request: Request) {
                 {
                     width: 1200,
                     height: 630,
+                    headers: {
+                        'Cache-Control': 'public, max-age=31536000, immutable',
+                    },
                 },
             );
         }
@@ -85,12 +99,11 @@ export async function GET(request: Request) {
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: '#1a103d',
-                        backgroundImage: `url(${bgBase64})`,
+                        backgroundImage: bgBase64 ? `url(${bgBase64})` : undefined,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         color: 'white',
                         padding: '40px 80px',
-                        textAlign: 'center',
                     }}
                 >
                     <div
@@ -107,14 +120,14 @@ export async function GET(request: Request) {
                     </div>
                     <div
                         style={{
+                            display: 'flex',
                             fontSize: 80,
                             fontWeight: 900,
-                            // Improve visibility of song title on busy background
-                            // using solid color with shadow, or gradient with stroke equivalent
                             color: 'white',
                             marginBottom: 50,
                             lineHeight: 1.1,
                             textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 0 10px rgba(255,255,255,0.5)',
+                            textAlign: 'center',
                         }}
                     >
                         {song.length > 20 ? song.substring(0, 20) + '...' : song}
@@ -141,6 +154,7 @@ export async function GET(request: Request) {
                                         minWidth: 300,
                                         display: 'flex',
                                         justifyContent: 'center',
+                                        alignItems: 'center',
                                     }}
                                 >
                                     {member}
@@ -153,11 +167,14 @@ export async function GET(request: Request) {
             {
                 width: 1200,
                 height: 630,
+                headers: {
+                    'Cache-Control': 'public, max-age=31536000, immutable',
+                },
             },
         );
     } catch (e: any) {
-        console.error(e);
-        return new Response(`Failed to generate the image`, {
+        console.error('OG Image generation error:', e);
+        return new Response(`Failed to generate the image: ${e.message}`, {
             status: 500,
         });
     }
