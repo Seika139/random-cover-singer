@@ -146,7 +146,7 @@ export async function GET(request: Request) {
                                     marginBottom: 20,
                                     textShadow: '0 4px 20px rgba(0,0,0,0.5)',
                                     letterSpacing: '2px',
-                                }}>セトリ予想メーカー</div>
+                                }}>#MOIW2025セトリ予想メーカー</div>
                                 <div style={{
                                     display: 'flex',
                                     fontSize: 32,
