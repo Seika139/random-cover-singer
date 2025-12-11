@@ -28,11 +28,6 @@ export async function GET(request: Request) {
             console.warn('Background image not found, using fallback color');
         }
 
-        // 日本語フォントを読み込み
-        const fontData = await fetch(
-            new URL('https://fonts.gstatic.com/s/notosansjp/v52/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFBEi75vY0rw-oME.woff', request.url)
-        ).then((res) => res.arrayBuffer());
-
         // Helper to get text color based on background
         const getTextColor = (hexColor: string) => {
             // Simple heuristic
@@ -89,14 +84,6 @@ export async function GET(request: Request) {
                     headers: {
                         'Cache-Control': 'public, max-age=31536000, immutable',
                     },
-                    fonts: [
-                        {
-                            name: 'Noto Sans JP',
-                            data: fontData,
-                            style: 'normal',
-                            weight: 700,
-                        },
-                    ],
                 },
             );
         }
@@ -183,14 +170,6 @@ export async function GET(request: Request) {
                 headers: {
                     'Cache-Control': 'public, max-age=31536000, immutable',
                 },
-                fonts: [
-                    {
-                        name: 'Noto Sans JP',
-                        data: fontData,
-                        style: 'normal',
-                        weight: 700,
-                    },
-                ],
             },
         );
     } catch (e: any) {
