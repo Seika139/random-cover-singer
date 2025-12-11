@@ -56,26 +56,56 @@ export async function GET(request: Request) {
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: '#1a103d',
-                            backgroundImage: bgBase64 ? `url(${bgBase64})` : undefined,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+                            position: 'relative',
                             color: 'white',
                         }}
                     >
+                        {/* 装飾的な円形要素 */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '-100px',
+                            right: '-100px',
+                            width: '400px',
+                            height: '400px',
+                            borderRadius: '50%',
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            display: 'flex',
+                        }} />
+                        <div style={{
+                            position: 'absolute',
+                            bottom: '-150px',
+                            left: '-150px',
+                            width: '500px',
+                            height: '500px',
+                            borderRadius: '50%',
+                            background: 'rgba(255, 255, 255, 0.08)',
+                            display: 'flex',
+                        }} />
+
+                        {/* コンテンツ */}
                         <div style={{
                             display: 'flex',
-                            fontSize: 60,
-                            fontWeight: 'bold',
-                            marginBottom: 20,
-                            textShadow: '0 4px 8px rgba(0,0,0,0.8)',
-                        }}>セトリ予想メーカー</div>
-                        <div style={{
-                            display: 'flex',
-                            fontSize: 30,
-                            opacity: 0.9,
-                            textShadow: '0 2px 4px rgba(0,0,0,0.8)',
-                        }}>MOIW2025のセトリを予想しよう！</div>
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            zIndex: 10,
+                        }}>
+                            <div style={{
+                                display: 'flex',
+                                fontSize: 70,
+                                fontWeight: 900,
+                                marginBottom: 20,
+                                textShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                                letterSpacing: '2px',
+                            }}>セトリ予想メーカー</div>
+                            <div style={{
+                                display: 'flex',
+                                fontSize: 32,
+                                opacity: 0.95,
+                                textShadow: '0 2px 10px rgba(0,0,0,0.2)',
+                                letterSpacing: '1px',
+                            }}>MOIW2025のセトリを予想しよう！</div>
+                        </div>
                     </div>
                 ),
                 {
@@ -98,69 +128,100 @@ export async function GET(request: Request) {
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: '#1a103d',
-                        backgroundImage: bgBase64 ? `url(${bgBase64})` : undefined,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+                        position: 'relative',
                         color: 'white',
                         padding: '40px 80px',
                     }}
                 >
-                    <div
-                        style={{
-                            display: 'flex',
-                            fontSize: 24,
-                            letterSpacing: 4,
-                            color: '#e2e8f0',
-                            marginBottom: 30,
-                            textShadow: '0 2px 4px rgba(0,0,0,0.8)',
-                        }}
-                    >
-                        歌唱する曲は...
-                    </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            fontSize: 80,
-                            fontWeight: 900,
-                            color: 'white',
-                            marginBottom: 50,
-                            lineHeight: 1.1,
-                            textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 0 10px rgba(255,255,255,0.5)',
-                            textAlign: 'center',
-                        }}
-                    >
-                        {song.length > 20 ? song.substring(0, 20) + '...' : song}
-                    </div>
+                    {/* 装飾的な円形要素 */}
+                    <div style={{
+                        position: 'absolute',
+                        top: '-100px',
+                        right: '-100px',
+                        width: '400px',
+                        height: '400px',
+                        borderRadius: '50%',
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        display: 'flex',
+                    }} />
+                    <div style={{
+                        position: 'absolute',
+                        bottom: '-150px',
+                        left: '-150px',
+                        width: '500px',
+                        height: '500px',
+                        borderRadius: '50%',
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        display: 'flex',
+                    }} />
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, width: '100%' }}>
-                        {members.map((member, i) => {
-                            const masterMember = ALL_MEMBERS.find(m => m.name === member);
-                            const bgColor = masterMember ? masterMember.color : 'rgba(255,255,255,0.2)';
-                            const textColor = masterMember ? getTextColor(masterMember.color) : 'white';
+                    {/* コンテンツ */}
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        zIndex: 10,
+                        width: '100%',
+                    }}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                fontSize: 28,
+                                letterSpacing: 6,
+                                color: 'rgba(255, 255, 255, 0.9)',
+                                marginBottom: 30,
+                                textShadow: '0 2px 10px rgba(0,0,0,0.2)',
+                            }}
+                        >
+                            #MOIW2025セトリ予想メーカー
+                        </div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                fontSize: 80,
+                                fontWeight: 900,
+                                color: 'white',
+                                marginBottom: 50,
+                                lineHeight: 1.1,
+                                textShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                                textAlign: 'center',
+                                letterSpacing: '2px',
+                            }}
+                        >
+                            {song.length > 20 ? song.substring(0, 20) + '...' : song}
+                        </div>
 
-                            return (
-                                <div
-                                    key={i}
-                                    style={{
-                                        padding: '10px 40px',
-                                        backgroundColor: bgColor,
-                                        color: textColor,
-                                        borderRadius: 50,
-                                        fontSize: 36,
-                                        fontWeight: 700,
-                                        boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
-                                        textAlign: 'center',
-                                        minWidth: 300,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    {member}
-                                </div>
-                            );
-                        })}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, width: '100%' }}>
+                            {members.map((member, i) => {
+                                const masterMember = ALL_MEMBERS.find(m => m.name === member);
+                                const bgColor = masterMember ? masterMember.color : 'rgba(255,255,255,0.25)';
+                                const textColor = masterMember ? getTextColor(masterMember.color) : 'white';
+
+                                return (
+                                    <div
+                                        key={i}
+                                        style={{
+                                            padding: '12px 45px',
+                                            backgroundColor: bgColor,
+                                            color: textColor,
+                                            borderRadius: 50,
+                                            fontSize: 38,
+                                            fontWeight: 700,
+                                            boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
+                                            textAlign: 'center',
+                                            minWidth: 320,
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            border: '2px solid rgba(255,255,255,0.2)',
+                                        }}
+                                    >
+                                        {member}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             ),
