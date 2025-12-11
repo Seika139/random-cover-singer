@@ -125,19 +125,19 @@ function ClientPageContent() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
-            <h1 className="text-4xl font-bold mb-8 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
+            <h1 className="lg:text-4xl sm:text-2xl text-xl font-bold lg:mb-8 sm:mb:2 mb-1 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
                 MOIW2025
                 {/* 狭い画面でのみ改行を強制する */}
-                <br className="sm:hidden" />
+                {/* <br className="sm:hidden" /> */}
                 {/* 広い画面でのみ半角スペースを挿入する */}
-                <span className="hidden sm:inline">&nbsp;</span>
+                <span className="inline">&nbsp;</span>
                 セトリ予想メーカー
             </h1>
 
-            <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 shadow-2xl w-full max-w-md border border-white/20">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl pt-8 p-4 lg:p-8 shadow-2xl w-full max-w-md border border-white/20">
                 {/* 1. UIの縦の長さの一定化と中央表示のための固定高さとflexの設定 */}
                 <div
-                    className={`mb-8 transition-all duration-300 ${isAnimating ? 'scale-95' : 'animate-in fade-in zoom-in duration-500'
+                    className={`mb-4 sm:mb-8 transition-all duration-300 ${isAnimating ? 'scale-95' : 'animate-in fade-in zoom-in duration-500'
                         } flex flex-col justify-center h-[340px]`} // 適切な高さ(例: h-[340px])を設定
                 >
                     {displayResult ? (
@@ -199,7 +199,7 @@ function ClientPageContent() {
                 </button>
 
                 {result && (
-                    <div className="mt-6 flex flex-col gap-3">
+                    <div className="mt-3 sm:mt-6 flex flex-col gap-3">
                         {/* 2. Twitter でシェアするボタンを抽選中は押下できないように: aタグをbuttonに変更しdisabledを適用 */}
                         <button
                             onClick={() => {
