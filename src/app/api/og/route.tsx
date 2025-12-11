@@ -239,10 +239,10 @@ export async function GET(request: Request) {
                             <div
                                 style={{
                                     display: 'flex',
-                                    fontSize: members.length > 4 ? 24 : 28,
-                                    letterSpacing: members.length > 4 ? 4 : 6,
+                                    fontSize: 42,
+                                    letterSpacing: 6,
                                     color: 'rgba(255, 255, 255, 0.9)',
-                                    marginBottom: members.length > 4 ? 20 : 30,
+                                    marginBottom: 30,
                                     textShadow: '0 2px 10px rgba(0,0,0,0.4)',
                                 }}
                             >
@@ -251,17 +251,17 @@ export async function GET(request: Request) {
                             <div
                                 style={{
                                     display: 'flex',
-                                    fontSize: members.length > 4 ? 60 : 80,
+                                    fontSize: song.length > 20 ? 60 : 80,
                                     fontWeight: 900,
                                     color: 'white',
-                                    marginBottom: members.length > 4 ? 30 : 50,
-                                    lineHeight: 1.1,
+                                    marginBottom: song.length > 20 ? 30 : 50,
+                                    lineHeight: 1.15,
                                     textShadow: '0 4px 20px rgba(0,0,0,0.5)',
                                     textAlign: 'center',
                                     letterSpacing: '2px',
                                 }}
                             >
-                                {song.length > 20 ? song.substring(0, 20) + '...' : song}
+                                {song.length > 28 ? song.substring(0, 28) + '...' : song}
                             </div>
 
                             {/* メンバー一覧（行分割版） */}
