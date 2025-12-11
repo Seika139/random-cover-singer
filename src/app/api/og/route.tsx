@@ -55,13 +55,17 @@ export async function GET(request: Request) {
 
         // Helper to get text color based on background
         const getTextColor = (hexColor: string) => {
-            // Simple heuristic
-            if (!hexColor || !hexColor.startsWith('#') || hexColor.length !== 7) return 'white';
+            if (!hexColor || !hexColor.startsWith('#')) return 'white';
 
             try {
-                const r = parseInt(hexColor.slice(1, 3), 16);
-                const g = parseInt(hexColor.slice(3, 5), 16);
-                const b = parseInt(hexColor.slice(5, 7), 16);
+                // アルファチャンネル付き（9文字）と通常（7文字）の両方に対応
+                const hex = hexColor.length === 9 ? hexColor.slice(1, 7) : hexColor.slice(1, 7);
+
+                const r = parseInt(hex.slice(0, 2), 16);
+                const g = parseInt(hex.slice(2, 4), 16);
+                const b = parseInt(hex.slice(4, 6), 16);
+
+                // YIQ計算式で明るさを判定
                 const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
                 return (yiq >= 128) ? 'black' : 'white';
             } catch (e) {
@@ -91,7 +95,7 @@ export async function GET(request: Request) {
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 50%, rgba(240, 147, 251, 0.75) 100%)',
+                            background: 'linear-gradient(135deg, rgba(234, 186, 102, 0.85) 0%, rgba(142, 162, 75, 0.85) 25%, rgba(75, 147, 162, 0.85) 50%, rgba(169, 59, 177, 0.85) 75%, rgba(229, 34, 128, 0.75) 100%)',
                             display: 'flex',
                         }} />
 
