@@ -34,6 +34,7 @@ export async function generateMetadata(
       title,
       description,
       type: 'website',
+      url: baseUrl, // og:url を追加
       images: [
         {
           url: ogUrl.toString(),
