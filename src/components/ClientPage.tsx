@@ -126,7 +126,12 @@ function ClientPageContent() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
             <h1 className="text-4xl font-bold mb-8 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
-                MOIW2025 セトリ予想メーカー
+                MOIW2025
+                {/* 狭い画面でのみ改行を強制する */}
+                <br className="sm:hidden" />
+                {/* 広い画面でのみ半角スペースを挿入する */}
+                <span className="hidden sm:inline">&nbsp;</span>
+                セトリ予想メーカー
             </h1>
 
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 shadow-2xl w-full max-w-md border border-white/20">
