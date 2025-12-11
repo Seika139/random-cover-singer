@@ -16,7 +16,7 @@ export async function generateMetadata(
     ? `セトリ予想: ${song} / ${members.split(',').length}人`
     : "セトリ予想メーカー";
 
-  const description = "MOIW2025のセトリと歌唱メンバーを勝手に予想します！";
+  const description = "MOIW2025のセトリを勝手に予想します！";
 
   // Construct absolute URL for OG image
   const baseUrl = process.env.VERCEL_URL
