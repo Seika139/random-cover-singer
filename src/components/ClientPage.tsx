@@ -3,13 +3,15 @@
 import { useState, useEffect, Suspense } from "react";
 import { generateSetlist, SetlistResult } from "@/utils/generator";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ALL_MEMBERS } from "@/data/master";
+import { ALL_MEMBERS, SONGS, MEMBERS_GROUP_A, MEMBERS_GROUP_B, Member } from "@/data/master";
 
 function ClientPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
     const [result, setResult] = useState<SetlistResult | null>(null);
+    const [displayResult, setDisplayResult] = useState<SetlistResult | null>(null);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     useEffect(() => {
         const s = searchParams.get("s");
@@ -23,23 +25,75 @@ function ClientPageContent() {
                 return found || { name, color: "#666" }; // Fallback color
             });
 
-            setResult({
+            const newResult = {
                 song: s,
                 members: resultMembers,
                 text: `${s} / ${memberNames.join(", ")}`
-            });
+            };
+            setResult(newResult);
+            setDisplayResult(newResult);
         }
     }, [searchParams]);
 
-    const handlePredict = () => {
-        const newResult = generateSetlist();
-        setResult(newResult);
+    // ランダムなメンバーを生成するヘルパー関数
+    const generateRandomMembers = (): Member[] => {
+        const selectedGroup = Math.random() < 0.5 ? MEMBERS_GROUP_A : MEMBERS_GROUP_B;
+        const memberCount = Math.floor(Math.random() * 5) + 1;
+        const shuffledMembers = [...selectedGroup].sort(() => 0.5 - Math.random());
+        return shuffledMembers.slice(0, memberCount);
+    };
 
-        // Update URL without full reload
-        const params = new URLSearchParams();
-        params.set("s", newResult.song);
-        params.set("m", newResult.members.map(m => m.name).join(","));
-        router.replace(`/?${params.toString()}`);
+    // スロットマシンアニメーション
+    const runSlotAnimation = (finalResult: SetlistResult) => {
+        const intervals = [30, 30, 30, 30, 50, 50, 80, 80, 120, 200]; // 減速パターン
+        let currentStep = 0;
+        let animationFrameId: NodeJS.Timeout;
+
+        const animate = () => {
+            if (currentStep >= intervals.length) {
+                // アニメーション終了
+                setDisplayResult(finalResult);
+                setResult(finalResult);
+                setIsAnimating(false);
+
+                // URL更新
+                const params = new URLSearchParams();
+                params.set("s", finalResult.song);
+                params.set("m", finalResult.members.map(m => m.name).join(","));
+                router.replace(`/?${params.toString()}`);
+                return;
+            }
+
+            // ランダムな曲とメンバーを表示
+            const randomSong = SONGS[Math.floor(Math.random() * SONGS.length)];
+            const randomMembers = generateRandomMembers();
+
+            setDisplayResult({
+                song: randomSong,
+                members: randomMembers,
+                text: `${randomSong} / ${randomMembers.map(m => m.name).join(", ")}`
+            });
+
+            // 次のステップへ
+            animationFrameId = setTimeout(() => {
+                currentStep++;
+                animate();
+            }, intervals[currentStep]);
+        };
+
+        animate();
+    };
+
+    const handlePredict = () => {
+        if (isAnimating) return; // 既にアニメーション中なら無視
+
+        setIsAnimating(true);
+
+        // 最終結果を先に生成
+        const finalResult = generateSetlist();
+
+        // アニメーション実行
+        runSlotAnimation(finalResult);
     };
 
     const shareUrl = typeof window !== "undefined" ? window.location.href : "";
@@ -63,13 +117,16 @@ function ClientPageContent() {
             </h1>
 
             <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 shadow-2xl w-full max-w-md border border-white/20">
-                {result ? (
-                    <div className="mb-8 animate-in fade-in zoom-in duration-300">
+                {displayResult ? (
+                    <div
+                        className={`mb-8 transition-all duration-300 ${isAnimating ? 'scale-95' : 'animate-in fade-in zoom-in duration-500'
+                            }`}
+                    >
                         <p className="text-gray-200 uppercase tracking-wider mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                             歌唱する曲は...
                         </p>
                         <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                            {result.song}
+                            {displayResult.song}
                         </h2>
 
                         <div className="my-6 h-px bg-white/20" />
@@ -78,7 +135,7 @@ function ClientPageContent() {
                             歌唱メンバーは...
                         </p>
                         <div className="flex flex-col items-center gap-3 w-full">
-                            {result.members.map((member, i) => (
+                            {displayResult.members.map((member, i) => (
                                 <span
                                     key={i}
                                     className="px-6 py-2 rounded-full font-bold text-lg shadow-md w-full max-w-[240px]"
@@ -100,9 +157,13 @@ function ClientPageContent() {
 
                 <button
                     onClick={handlePredict}
-                    className="w-full py-4 text-xl font-bold text-white transition-all transform hover:scale-105 active:scale-95 rounded-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:shadow-lg shadow-pink-500/50"
+                    disabled={isAnimating}
+                    className={`w-full py-4 text-xl font-bold text-white transition-all transform rounded-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 shadow-pink-500/50 ${isAnimating
+                        ? 'opacity-50 cursor-not-allowed'
+                        : 'hover:scale-105 active:scale-95 hover:shadow-lg'
+                        }`}
                 >
-                    セトリ予想を生成！
+                    {isAnimating ? '抽選中...' : 'セトリ予想を生成！'}
                 </button>
 
                 {result && (
