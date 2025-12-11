@@ -44,7 +44,7 @@ function ClientPageContent() {
 
     const shareUrl = typeof window !== "undefined" ? window.location.href : "";
     const shareText = result
-        ? `#MOIW2025セトリ予想メーカー の予想結果！\n\n🎵 ${result.song}\n🎤 ${result.members.map(m => m.name.replace(/\s+/g, '')).join('、')} \n#MOIW2025セトリ予想\n`
+        ? `#MOIW2025セトリ予想メーカー の予想結果！\n\n🎵 ${result.song}\n🎤 ${result.members.map(m => m.name.replace(/\s+/g, '')).join('、')} \n\n#MOIW2025セトリ予想\n`
         : "";
 
     // Helper to determine text color based on background luminance

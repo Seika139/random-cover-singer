@@ -47,10 +47,7 @@ export async function generateMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: {
-        url: ogUrl.toString(),
-        alt: title,
-      },
+      images: [ogUrl.toString()],
     },
   };
 }
