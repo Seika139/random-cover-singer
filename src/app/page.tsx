@@ -19,9 +19,9 @@ export async function generateMetadata(
   const description = "MOIW2025のセトリを勝手に予想します！";
 
   // Construct absolute URL for OG image
-  // NEXT_PUBLIC_BASE_URLを優先的に使用（本番環境では固定ドメインを設定）
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-    || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const ogUrl = new URL("/api/og", baseUrl);
 
   if (song) ogUrl.searchParams.set("s", song);
