@@ -200,22 +200,17 @@ function ClientPageContent() {
 
                 {result && (
                     <div className="mt-3 sm:mt-6 flex flex-col gap-3">
-                        {/* 2. Twitter でシェアするボタンを抽選中は押下できないように: aタグをbuttonに変更しdisabledを適用 */}
-                        <button
-                            onClick={() => {
-                                // 抽選中でなければシェアURLに遷移
-                                if (!isAnimating) {
-                                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, '_blank', 'noopener noreferrer');
-                                }
-                            }}
-                            disabled={isAnimating}
-                            className={`w-full py-2 bg-black text-white rounded-lg font-bold transition-colors ${isAnimating
-                                ? 'opacity-50 cursor-not-allowed'
+                        <a
+                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`w-full py-2 bg-black text-white rounded-lg font-bold transition-colors block text-center ${isAnimating
+                                ? 'opacity-50 cursor-not-allowed pointer-events-none'
                                 : 'hover:bg-gray-900 hover:scale-105 active:bg-gray-800'
                                 }`}
                         >
                             X (Twitter) でシェア
-                        </button>
+                        </a>
                     </div>
                 )}
             </div>
