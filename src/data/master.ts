@@ -2026,7 +2026,7 @@ export const MEMBERS_GROUP_B: Member[] = [
     { name: "伊集院 北斗", color: "#3cda7bff" },
     { name: "紅井 朱雀", color: "#3cda7bff" },
     { name: "黒野 玄武", color: "#3cda7bff" },
-    { name: "硲 道夫 ", color: "#3cda7bff" },
+    { name: "硲 道夫", color: "#3cda7bff" },
     { name: "舞田 類", color: "#3cda7bff" },
     { name: "山下 次郎", color: "#3cda7bff" },
     { name: "大河 タケル", color: "#3cda7bff" },
