@@ -1,0 +1,26 @@
+version: 2
+updates:
+  # npm/Node.jsの依存関係を監視するための設定
+  - package-ecosystem: "npm"
+    # package.jsonファイルがあるディレクトリ
+    directory: "/"
+    schedule:
+      # 更新をチェックする頻度
+      interval: "daily"
+      # 更新をチェックする時刻 (UTC 24時間表記)
+      # Dependabotは通常UTCで動作しますが、timezoneを設定しているため指定した時間で実行されます
+      time: "13:30"
+      # タイムゾーンの指定
+      timezone: "Asia/Tokyo"
+
+    # すべての依存関係を一つのプルリクエストにまとめる設定
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+          # devDependenciesとdependenciesの両方を対象
+
+    # 更新のプルリクエストをマージしてから、同じ依存関係の次の更新を生成するまでの待機日数
+    # (オプションですが、元の設定にあったため残しています)
+    cooldown:
+      default-days: 1
