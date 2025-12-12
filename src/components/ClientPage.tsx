@@ -104,9 +104,16 @@ function ClientPageContent() {
     };
 
     const shareUrl = typeof window !== "undefined" ? window.location.href : "";
-    const shareText = result
-        ? `#MOIW2025セトリ予想メーカー の予想結果！\n\n🎵 ${result.song}\n🎤 ${result.members.map(m => m.name.replace(/\s+/g, '')).join('、')} \n\n#MOIW2025セトリ予想\n\n`
+    let shareText = result
+        ? `#MOIW2025セトリ予想メーカー の予想結果！\n\n🎵 ${result.song}\n🎤 ${result.members.map(m => m.name.replace(/\s+/g, '')).join('、')} \n\n#MOIW2025セトリ予想\n`
         : "";
+    if (result) {
+        if(shareText.length < 125) {
+            shareText += "#アイマスMOIW2025\n\n";
+        }else {
+            shareText += "\n";
+        }
+    }
 
     // Helper to determine text color based on background luminance
     const getTextColor = (hexColor: string) => {
