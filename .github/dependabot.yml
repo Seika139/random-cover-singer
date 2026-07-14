@@ -24,3 +24,8 @@ updates:
     # (オプションですが、元の設定にあったため残しています)
     cooldown:
       default-days: 1
+
+    # TypeScript 7 (Go ネイティブ実装) は Next.js のビルドと非互換のためメジャー更新を除外する
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
