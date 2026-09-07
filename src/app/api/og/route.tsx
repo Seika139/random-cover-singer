@@ -36,7 +36,7 @@ export async function GET(request: Request) {
         // ?s=...&m=...
         const song = searchParams.get('s') || searchParams.get('title');
         const membersParam = searchParams.get('m');
-        let members = membersParam ? membersParam.split(',') : [];
+        const members = membersParam ? membersParam.split(',') : [];
 
         // 背景画像をfetchで読み込み（Edge Runtime対応）
         const bgUrl = new URL('/bg.png', request.url).toString();
@@ -49,7 +49,7 @@ export async function GET(request: Request) {
                 const base64 = Buffer.from(bgBuffer).toString('base64');
                 bgBase64 = `data:image/png;base64,${base64}`;
             }
-        } catch (error) {
+        } catch {
             console.warn('Background image not found, using fallback color');
         }
 
@@ -68,7 +68,7 @@ export async function GET(request: Request) {
                 // YIQ計算式で明るさを判定
                 const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
                 return (yiq >= 128) ? 'black' : 'white';
-            } catch (e) {
+            } catch {
                 return 'white';
             }
         };
@@ -342,9 +342,10 @@ export async function GET(request: Request) {
                 },
             },
         );
-    } catch (e: any) {
+    } catch (e: unknown) {
         console.error('OG Image generation error:', e);
-        return new Response(`Failed to generate the image: ${e.message}`, {
+        const message = e instanceof Error ? e.message : String(e);
+        return new Response(`Failed to generate the image: ${message}`, {
             status: 500,
         });
     }

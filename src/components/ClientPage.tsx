@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useMemo, Suspense } from "react";
 import { generateSetlist, SetlistResult } from "@/utils/generator";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ALL_MEMBERS, SONGS, MEMBERS_GROUP_A, MEMBERS_GROUP_B, Member } from "@/data/master";
@@ -15,31 +15,34 @@ function ClientPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const [result, setResult] = useState<SetlistResult | null>(null);
-    const [displayResult, setDisplayResult] = useState<SetlistResult | null>(null);
-    const [isAnimating, setIsAnimating] = useState(false);
-
-    useEffect(() => {
+    // URLの ?s=...&m=... から導出する結果。レンダリング中に純粋に計算する（setStateを伴わない）
+    const urlResult = useMemo<SetlistResult | null>(() => {
         const s = searchParams.get("s");
         const m = searchParams.get("m");
 
-        if (s && m) {
-            const memberNames = m.split(",");
-            // Reconstruct members with colors from master data
-            const resultMembers = memberNames.map(name => {
-                const found = ALL_MEMBERS.find(mem => mem.name === name);
-                return found || { name, color: "#666" }; // Fallback color
-            });
+        if (!s || !m) return null;
 
-            const newResult = {
-                song: s,
-                members: resultMembers,
-                text: `${s} / ${memberNames.join(", ")}`
-            };
-            setResult(newResult);
-            setDisplayResult(newResult);
-        }
+        const memberNames = m.split(",");
+        // Reconstruct members with colors from master data
+        const resultMembers = memberNames.map(name => {
+            const found = ALL_MEMBERS.find(mem => mem.name === name);
+            return found || { name, color: "#666" }; // Fallback color
+        });
+
+        return {
+            song: s,
+            members: resultMembers,
+            text: `${s} / ${memberNames.join(", ")}`
+        };
     }, [searchParams]);
+
+    // ユーザー操作（スロットアニメーション）由来の結果。存在する場合はURL由来の値より優先する
+    const [override, setOverride] = useState<SetlistResult | null>(null);
+    const [displayOverride, setDisplayOverride] = useState<SetlistResult | null>(null);
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    const result = override ?? urlResult;
+    const displayResult = displayOverride ?? urlResult;
 
     // ランダムなメンバーを生成するヘルパー関数
     const generateRandomMembers = (): Member[] => {
@@ -54,13 +57,12 @@ function ClientPageContent() {
     const runSlotAnimation = (finalResult: SetlistResult) => {
         const intervals = [30, 30, 30, 30, 50, 50, 80, 80, 120, 200]; // 減速パターン
         let currentStep = 0;
-        let animationFrameId: NodeJS.Timeout;
 
         const animate = () => {
             if (currentStep >= intervals.length) {
                 // アニメーション終了
-                setDisplayResult(finalResult);
-                setResult(finalResult);
+                setDisplayOverride(finalResult);
+                setOverride(finalResult);
                 setIsAnimating(false);
 
                 // URL更新
@@ -75,14 +77,14 @@ function ClientPageContent() {
             const randomSong = SONGS[Math.floor(Math.random() * SONGS.length)];
             const randomMembers = generateRandomMembers();
 
-            setDisplayResult({
+            setDisplayOverride({
                 song: randomSong,
                 members: randomMembers,
                 text: `${randomSong} / ${randomMembers.map(m => m.name).join(", ")}`
             });
 
             // 次のステップへ
-            animationFrameId = setTimeout(() => {
+            setTimeout(() => {
                 currentStep++;
                 animate();
             }, intervals[currentStep]);
