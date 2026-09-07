@@ -6,10 +6,12 @@ updates:
     directory: "/"
     schedule:
       # 更新をチェックする頻度
-      interval: "daily"
+      interval: "weekly"
+      # 更新をチェックする曜日
+      day: "monday"
       # 更新をチェックする時刻 (UTC 24時間表記)
       # Dependabotは通常UTCで動作しますが、timezoneを設定しているため指定した時間で実行されます
-      time: "13:30"
+      time: "10:00"
       # タイムゾーンの指定
       timezone: "Asia/Tokyo"
 
@@ -21,11 +23,23 @@ updates:
           # devDependenciesとdependenciesの両方を対象
 
     # 更新のプルリクエストをマージしてから、同じ依存関係の次の更新を生成するまでの待機日数
-    # (オプションですが、元の設定にあったため残しています)
     cooldown:
-      default-days: 1
+      default-days: 7
 
     # TypeScript 7 (Go ネイティブ実装) は Next.js のビルドと非互換のためメジャー更新を除外する
     ignore:
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
+
+  # GitHub Actions の依存関係を監視するための設定
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+      timezone: "Asia/Tokyo"
+    groups:
+      github-actions-deps:
+        patterns:
+          - "*"
