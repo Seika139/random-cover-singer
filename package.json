@@ -10,14 +10,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@vercel/og": "^1.0.2",
-    "next": "^16.3.5",
+    "@vercel/og": "^1.0.3",
+    "next": "^16.3.6",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
   "devDependencies": {
     "@eslint-react/eslint-plugin": "^5",
-    "@next/eslint-plugin-next": "^16.3.5",
+    "@next/eslint-plugin-next": "^16.3.6",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^26",
     "@types/react": "^19",
